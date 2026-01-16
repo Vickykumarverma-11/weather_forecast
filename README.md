@@ -47,9 +47,20 @@ lib/
 
 **Lazy loading the list** - The API returns like 72 hours of data at once. Loading all of them felt sluggish so I paginate on the UI side.
 
+## Prerequisites
+
+- Flutter SDK 3.9.2 or higher
+- Dart SDK (comes with Flutter)
+- Android Studio / Xcode (for emulators) or a physical device
+- A free API key from [weatherapi.com](https://www.weatherapi.com/)
+
 ## Getting Started
 
 1. Clone this repo
+   ```bash
+   git clone https://github.com/yourusername/weather_forecast.git
+   cd weather_forecast
+   ```
 
 2. Get a free API key from [weatherapi.com](https://www.weatherapi.com/)
 
@@ -58,11 +69,32 @@ lib/
    static const String apiKey = 'your_key_here';
    ```
 
-4. Run it:
+4. Install dependencies:
    ```bash
    flutter pub get
-   flutter run
    ```
+
+5. Run the app:
+   ```bash
+   # Check connected devices
+   flutter devices
+
+   # Run on default device
+   flutter run
+
+   # Run on specific platform
+   flutter run -d chrome      # Web
+   flutter run -d macos       # macOS desktop
+   flutter run -d ios         # iOS simulator
+   flutter run -d android     # Android emulator
+   ```
+
+## Hot Reload
+
+While the app is running, press:
+- `r` - Hot reload (applies code changes instantly)
+- `R` - Hot restart (restarts the app)
+- `q` - Quit
 
 ## Running Tests
 
