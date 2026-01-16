@@ -1,30 +1,57 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:weather_forecast/main.dart';
+import 'package:weather_forecast/domain/entities/weather_entity.dart';
+import 'package:weather_forecast/domain/repositories/weather_repository.dart';
+import 'package:weather_forecast/domain/usecases/get_weather_forecast_usecase.dart';
+import 'package:weather_forecast/presentation/bloc/weather_bloc.dart';
+import 'package:weather_forecast/presentation/pages/weather_page.dart';
+
+class MockWeatherRepository implements WeatherRepository {
+  @override
+  Future<List<WeatherEntity>> getWeatherForecast(String city) async {
+    return [
+      WeatherEntity(
+        date: DateTime.now(),
+        temperature: 25.0,
+        description: 'clear sky',
+        icon: '01d',
+      ),
+    ];
+  }
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('WeatherPage displays app bar title', (WidgetTester tester) async {
+    final repository = MockWeatherRepository();
+    final useCase = GetWeatherForecastUseCase(repository);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BlocProvider(
+          create: (_) => WeatherBloc(getWeatherForecast: useCase),
+          child: const WeatherPage(),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(find.text('Weather Forecast'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('WeatherPage shows city dropdown', (WidgetTester tester) async {
+    final repository = MockWeatherRepository();
+    final useCase = GetWeatherForecastUseCase(repository);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BlocProvider(
+          create: (_) => WeatherBloc(getWeatherForecast: useCase),
+          child: const WeatherPage(),
+        ),
+      ),
+    );
+
+    expect(find.text('London'), findsOneWidget);
   });
 }
