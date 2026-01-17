@@ -21,7 +21,7 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   void initState() {
     super.initState();
-    // Auto-fetch weather for the default city on app load
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final bloc = context.read<WeatherBloc>();
       bloc.add(FetchForecast(bloc.state.selectedCity));

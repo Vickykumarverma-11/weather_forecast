@@ -13,7 +13,7 @@ class WeatherDto {
     required this.icon,
   });
 
-  /// Parse hourly forecast item from WeatherAPI
+ 
   factory WeatherDto.fromHourJson(Map<String, dynamic> json) {
     final condition = json['condition'] as Map<String, dynamic>;
 

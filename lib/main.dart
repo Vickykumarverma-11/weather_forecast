@@ -9,7 +9,7 @@ import 'presentation/bloc/weather_bloc.dart';
 import 'presentation/pages/weather_page.dart';
 
 void main() {
-  // Simple dependency injection
+ 
   final dio = Dio();
   final remoteDataSource = WeatherRemoteDataSourceImpl(dio: dio);
   final repository = WeatherRepositoryImpl(remoteDataSource: remoteDataSource);
